@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<h1><small>{% trans "Trusted sources" %} <span class="text-success">{{ stats.trusted }}</span></small></h1>
+
+<table class="table">
+  {% for domain, stats in trusted.items %}
+    {% include "modoboa_dmarc/_result_detail.html" with domain=domain stats=stats %}
+  {% endfor %}
+</table>
+
+<h1><small>{% trans "Unknown sources / Threats" %} <span class="text-danger">{{ stats.failed }}</span></small></h1>
+
+<table class="table">
+  {% for domain, stats in threats.items %}
+    {% include "modoboa_dmarc/_result_detail.html" with domain=domain stats=stats only_failed=True %}
+  {% endfor %}
+</table>
