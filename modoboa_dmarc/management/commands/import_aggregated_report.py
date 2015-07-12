@@ -31,7 +31,7 @@ class Command(BaseCommand):
         if options.get("pipe"):
             lib.import_report_from_email()
         elif options.get("imap"):
-            lib.import_from_imap(options["mailbox"])
+            lib.import_from_imap(options)
         elif args:
             lib.import_archive(args[0])
         else:
