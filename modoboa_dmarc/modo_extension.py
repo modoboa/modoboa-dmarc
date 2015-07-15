@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy, ugettext as _
 
 from modoboa.core.extensions import ModoExtension, exts_pool
-from modoboa.lib import events
+from modoboa.lib import events, parameters
 
 
 class DmarcExtension(ModoExtension):
@@ -21,7 +21,10 @@ class DmarcExtension(ModoExtension):
 
     def load(self):
         """Extension loading."""
-        pass
+        from .app_settings import ParametersForm
+
+        parameters.register(ParametersForm, "DMARC")
+
 
 exts_pool.register_extension(DmarcExtension)
 

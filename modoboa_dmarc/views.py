@@ -11,6 +11,8 @@ from django.views import generic
 
 import braces.views
 
+from modoboa.lib import parameters
+
 from modoboa_admin import models as admin_models
 
 from . import models
@@ -19,7 +21,7 @@ from . import models
 def insert_record(target, record):
     """Add a record."""
     name = "Not resolved"
-    if False:
+    if parameters.get_admin("ENABLE_RLOOKUPS") == "yes":
         addr = reversename.from_address(record.source_ip)
         try:
             resp = resolver.query(addr, "PTR")
