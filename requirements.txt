@@ -1,3 +1,4 @@
 modoboa-admin>=1.1.1
 django-braces
 dnspython
+py-dateutil

@@ -29,7 +29,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Entry point."""
         if options.get("pipe"):
-            lib.import_report_from_email()
+            lib.import_report_from_stdin()
         elif options.get("imap"):
             lib.import_from_imap(options)
         elif args:
