@@ -89,7 +89,7 @@ class Record(models.Model):
         max_length=9, choices=DKIM_RESULTS)
     spf_result = models.CharField(
         max_length=9, choices=SPF_RESULTS)
-    header_from = models.ForeignKey("modoboa_admin.Domain")
+    header_from = models.ForeignKey("admin.Domain")
     reason_type = models.CharField(max_length=15, blank=True)
     reason_comment = models.CharField(max_length=100, blank=True)
 

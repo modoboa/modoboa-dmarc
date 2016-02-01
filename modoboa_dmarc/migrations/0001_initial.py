@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('modoboa_admin', '0003_domain_type'),
+        ('admin', '0002_migrate_from_modoboa_admin'),
     ]
 
     operations = [
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('spf_result', models.CharField(max_length=9, choices=[(b'none', 'None'), (b'neutral', 'Neutral'), (b'pass', 'Pass'), (b'fail', 'Fail'), (b'temperror', 'Temporary error'), (b'permerror', 'Permanent error'), (b'softfail', 'Soft failure')])),
                 ('reason_type', models.CharField(max_length=15, blank=True)),
                 ('reason_comment', models.CharField(max_length=100, blank=True)),
-                ('header_from', models.ForeignKey(to='modoboa_admin.Domain')),
+                ('header_from', models.ForeignKey(to='admin.Domain')),
             ],
             options={
             },
@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('org_name', models.CharField(max_length=100)),
-                ('email', models.EmailField(unique=True, max_length=75)),
+                ('email', models.EmailField(unique=True, max_length=254)),
             ],
             options={
             },
