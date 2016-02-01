@@ -12,7 +12,7 @@ from lxml import objectify
 
 from django.db import transaction
 
-from modoboa_admin import models as admin_models
+from modoboa.admin import models as admin_models
 
 from . import models
 
