@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from modoboa_admin.signals import extra_domain_actions
+from modoboa.admin.signals import extra_domain_actions
 
 from . import models
 

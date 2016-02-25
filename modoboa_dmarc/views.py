@@ -13,7 +13,7 @@ import braces.views
 
 from modoboa.lib import parameters
 
-from modoboa_admin import models as admin_models
+from modoboa.admin import models as admin_models
 
 from . import models
 

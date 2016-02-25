@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from modoboa.admin import models as admin_models
+
 
 POLICY_DISPOSITIONS = [
     ("none", _("None")),
@@ -89,7 +91,7 @@ class Record(models.Model):
         max_length=9, choices=DKIM_RESULTS)
     spf_result = models.CharField(
         max_length=9, choices=SPF_RESULTS)
-    header_from = models.ForeignKey("admin.Domain")
+    header_from = models.ForeignKey(admin_models.Domain)
     reason_type = models.CharField(max_length=15, blank=True)
     reason_comment = models.CharField(max_length=100, blank=True)
 
