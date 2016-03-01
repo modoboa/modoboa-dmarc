@@ -13,7 +13,7 @@ class DmarcExtension(ModoExtension):
 
     name = "modoboa_dmarc"
     label = ugettext_lazy("DMARC tools")
-    version = "1.0.0"
+    version = "0.1.0"
     description = ugettext_lazy(
         "A set of tools to ease DMARC integration"
     )

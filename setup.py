@@ -57,7 +57,7 @@ def read(fname):
 
 setup(
     name="modoboa-dmarc",
-    version='1.0.0',
+    version='0.1.0',
     url='http://modoboa.org/',
     license='MIT',
     description="DMARC related tools",
