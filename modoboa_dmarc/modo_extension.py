@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from modoboa.core.extensions import ModoExtension, exts_pool
 from modoboa.lib import events, parameters
 
+from . import __version__
+
 
 class DmarcExtension(ModoExtension):
 
@@ -13,7 +15,7 @@ class DmarcExtension(ModoExtension):
 
     name = "modoboa_dmarc"
     label = ugettext_lazy("DMARC tools")
-    version = "0.1.0"
+    version = __version__
     description = ugettext_lazy(
         "A set of tools to ease DMARC integration"
     )

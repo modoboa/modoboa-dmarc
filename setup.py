@@ -4,6 +4,8 @@ import re
 import os
 from setuptools import setup, find_packages
 
+from modoboa_dmarc import __version__
+
 ROOT = os.path.dirname(__file__)
 
 
@@ -57,7 +59,7 @@ def read(fname):
 
 setup(
     name="modoboa-dmarc",
-    version='0.1.0',
+    version=__version__,
     url='http://modoboa.org/',
     license='MIT',
     description="DMARC related tools",
