@@ -53,7 +53,7 @@ First, declare a new service in ``/etc/postfix/master.cf``::
   dmarc-rua-parser unix  -       n       n       -       -       pipe
     flags= user=vmail:vmail argv=<path to python> <path to modoboa instance>/manage.py import_aggregated_report --pipe
 
-Define a new transport table inside ``/etc/postfix/master.cf``::
+Define a new transport table inside ``/etc/postfix/main.cf``::
 
   transport_maps =
       hash:/etc/postfix/dmarc_transport
