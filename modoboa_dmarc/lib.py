@@ -37,6 +37,7 @@ def import_record(xml_node, report):
         record.reason_comment = xml_node.row.policy_evaluated.reason.comment
 
     header_from = xml_node.identifiers.header_from.text.split(".")
+    domain = None
     while len(header_from) >= 2:
         domain = admin_models.Domain.objects.filter(
             name=".".join(header_from)).first()
@@ -44,7 +45,7 @@ def import_record(xml_node, report):
             record.header_from = domain
             break
         header_from = header_from[1:]
-    if record.header_from is None:
+    if domain is None:
         print "Invalid record found (domain not local)"
         return None
 
