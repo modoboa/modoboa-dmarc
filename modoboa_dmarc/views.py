@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.views import generic
 
-import braces.views
+from django.contrib.auth import mixins as auth_mixins
 
 from modoboa.lib import parameters
 
@@ -58,7 +58,7 @@ def week_range(year, weeknumber):
 
 
 class DomainReportView(
-        braces.views.PermissionRequiredMixin,
+        auth_mixins.PermissionRequiredMixin,
         generic.TemplateView):
 
     """ListView for Report."""
@@ -126,8 +126,8 @@ class DomainReportView(
             pie_data.update({
                 "faligned": stats["aligned"] / float(stats["total"]) * 100,
                 "paligned": (
-                    (stats["trusted"] - stats["aligned"])
-                    / float(stats["total"]) * 100
+                    (stats["trusted"] - stats["aligned"]) /
+                    float(stats["total"]) * 100
                 ),
                 "failed": stats["failed"] / float(stats["total"]) * 100
             })

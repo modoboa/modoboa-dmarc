@@ -1,4 +1,3 @@
-modoboa-admin>=1.1.1
-django-braces
+modoboa>=1.5.0
 dnspython
 py-dateutil
