@@ -60,7 +60,6 @@ def week_range(year, weeknumber):
 class DomainReportView(
         auth_mixins.PermissionRequiredMixin,
         generic.TemplateView):
-
     """ListView for Report."""
 
     permission_required = "modoboa_dmarc.view_report"
