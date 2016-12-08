@@ -1,16 +1,15 @@
 """DMARC tools for Modoboa."""
 
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils.translation import ugettext_lazy
 
 from modoboa.core.extensions import ModoExtension, exts_pool
-from modoboa.lib import events, parameters
+from modoboa.parameters import tools as param_tools
 
 from . import __version__
+from . import forms
 
 
 class DmarcExtension(ModoExtension):
-
     """Extension registration."""
 
     name = "modoboa_dmarc"
@@ -23,20 +22,7 @@ class DmarcExtension(ModoExtension):
 
     def load(self):
         """Extension loading."""
-        from .app_settings import ParametersForm
-
-        parameters.register(ParametersForm, "DMARC")
+        param_tools.registry.add("global", forms.ParametersForm, "DMARC")
 
 
 exts_pool.register_extension(DmarcExtension)
-
-
-@events.observe("GetDomainActions")
-def extra_domain_actions(user, domain):
-    """Return a menu to show the DMARC report."""
-    return [{
-        "name": "dmarc_report",
-        "url": reverse("modoboa_dmarc:domain_report", args=[domain.pk]),
-        "title": _("Show DMARC report for {}").format(domain.name),
-        "img": "fa fa-pie-chart"
-    }]
