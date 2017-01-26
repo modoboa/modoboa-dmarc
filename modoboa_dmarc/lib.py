@@ -22,6 +22,7 @@ ZIP_CONTENT_TYPES = [
     "application/x-zip",
     "application/zip",
     "application/gzip",
+    "text/xml",
 ]
 
 
@@ -99,8 +100,14 @@ def import_report(content):
 
 
 def import_archive(archive, content_type=None):
-    """Import reports contained inside a zip archive (file pointer)."""
-    if content_type == 'application/gzip':
+    """Import reports contained inside (file pointer)
+    - a zip archive,
+    - a gzip file,
+    - a xml file.
+    """
+    if content_type == 'text/xml':
+        import_report(archive.read())
+    elif content_type == 'application/gzip':
         with gzip.GzipFile(archive, "r") as zfile:
             import_report(zfile.f.read())
     else:
