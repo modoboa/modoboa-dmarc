@@ -76,8 +76,8 @@ def import_report(content):
         feedback.report_metadata.report_id,
         feedback.report_metadata.org_name)
     reporter, created = models.Reporter.objects.get_or_create(
-        org_name=feedback.report_metadata.org_name,
-        email=feedback.report_metadata.email
+        email=feedback.report_metadata.email,
+        defaults={"org_name": feedback.report_metadata.org_name}
     )
     qs = models.Report.objects.filter(
         reporter=reporter, report_id=feedback.report_metadata.report_id)
