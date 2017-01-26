@@ -7,6 +7,7 @@ import getpass
 import imaplib
 from StringIO import StringIO
 import zipfile
+import gzip
 
 from lxml import objectify
 import pytz.exceptions
@@ -22,7 +23,9 @@ from . import models
 ZIP_CONTENT_TYPES = [
     "application/x-zip-compressed",
     "application/x-zip",
-    "application/zip"
+    "application/zip",
+    "application/gzip",
+    "text/xml",
 ]
 
 
@@ -106,11 +109,21 @@ def import_report(content):
         import_record(record, report)
 
 
-def import_archive(archive):
-    """Import reports contained inside a zip archive (file pointer)."""
-    with zipfile.ZipFile(archive, "r") as zfile:
-        for fname in zfile.namelist():
-            import_report(zfile.read(fname))
+def import_archive(archive, content_type=None):
+    """Import reports contained inside (file pointer)
+    - a zip archive,
+    - a gzip file,
+    - a xml file.
+    """
+    if content_type == "text/xml":
+        import_report(archive.read())
+    elif content_type == "application/gzip":
+        with gzip.GzipFile(archive, "r") as zfile:
+            import_report(zfile.f.read())
+    else:
+        with zipfile.ZipFile(archive, "r") as zfile:
+            for fname in zfile.namelist():
+                import_report(zfile.read(fname))
 
 
 def import_report_from_email(content):
@@ -123,7 +136,7 @@ def import_report_from_email(content):
         if part.get_content_type() not in ZIP_CONTENT_TYPES:
             continue
         fpo = StringIO(part.get_payload(decode=True))
-        import_archive(fpo)
+        import_archive(fpo, content_type=part.get_content_type())
         fpo.close()
 
 
