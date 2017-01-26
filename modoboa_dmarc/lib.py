@@ -9,11 +9,14 @@ from StringIO import StringIO
 import zipfile
 
 from lxml import objectify
+import pytz.exceptions
 
 from django.db import transaction
+from django.utils.encoding import smart_text
 
 from modoboa.admin import models as admin_models
 
+from . import constants
 from . import models
 
 ZIP_CONTENT_TYPES = [
@@ -33,7 +36,10 @@ def import_record(xml_node, report):
     record.dkim_result = xml_node.row.policy_evaluated.dkim
     record.spf_result = xml_node.row.policy_evaluated.spf
     if hasattr(xml_node.row.policy_evaluated, "reason"):
-        record.reason_type = xml_node.row.policy_evaluated.reason.type
+        record.reason_type = smart_text(
+            xml_node.row.policy_evaluated.reason.type)[:14]
+        if record.reason_type not in constants.ALLOWED_REASON_TYPES:
+            record.reason_type = "other"
         record.reason_comment = xml_node.row.policy_evaluated.reason.comment
 
     header_from = xml_node.identifiers.header_from.text.split(".")
@@ -91,7 +97,11 @@ def import_report(content):
             )
         except AttributeError:
             pass
-    report.save()
+    try:
+        report.save()
+    except (pytz.exceptions.AmbiguousTimeError):
+        print "Report skipped because of invalid date."""
+        return
     for record in feedback.record:
         import_record(record, report)
 
