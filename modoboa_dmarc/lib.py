@@ -118,8 +118,8 @@ def import_archive(archive, content_type=None):
     if content_type == "text/xml":
         import_report(archive.read())
     elif content_type == "application/gzip":
-        with gzip.GzipFile(archive, "r") as zfile:
-            import_report(zfile.f.read())
+        with gzip.GzipFile(mode="r", fileobj=archive) as zfile:
+            import_report(zfile.read())
     else:
         with zipfile.ZipFile(archive, "r") as zfile:
             for fname in zfile.namelist():
