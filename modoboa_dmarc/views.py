@@ -11,9 +11,8 @@ from django.views import generic
 
 from django.contrib.auth import mixins as auth_mixins
 
-from modoboa.lib import parameters
-
 from modoboa.admin import models as admin_models
+from modoboa.parameters import tools as param_tools
 
 from . import models
 
@@ -21,7 +20,7 @@ from . import models
 def insert_record(target, record):
     """Add a record."""
     name = "Not resolved"
-    if parameters.get_admin("ENABLE_RLOOKUPS") == "yes":
+    if param_tools.get_global_parameter("enable_rlookups"):
         addr = reversename.from_address(record.source_ip)
         try:
             resp = resolver.query(addr, "PTR")
