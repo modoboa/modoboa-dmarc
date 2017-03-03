@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-09 10:48+0200\n"
+"POT-Creation-Date: 2017-03-03 09:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,55 +17,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: handlers.py:23 modo_extension.py:35
+#: forms.py:35
+msgid "DNS settings"
+msgstr ""
+
+#: forms.py:38
+msgid "Enable reverse lookups"
+msgstr ""
+
+#: forms.py:41
+msgid "Enable reverse DNS lookups (reports will be longer to display)"
+msgstr ""
+
+#: handlers.py:20
 msgid "Show DMARC report for {}"
 msgstr ""
 
-#: models.py:9 models.py:15
+#: models.py:11 models.py:17
 msgid "None"
 msgstr ""
 
-#: models.py:10
+#: models.py:12
 msgid "Quarantine"
 msgstr ""
 
-#: models.py:11
+#: models.py:13
 msgid "Reject"
 msgstr ""
 
-#: models.py:16
+#: models.py:18
 msgid "Neutral"
 msgstr ""
 
-#: models.py:17
+#: models.py:19
 msgid "Pass"
 msgstr ""
 
-#: models.py:18
+#: models.py:20
 msgid "Fail"
 msgstr ""
 
-#: models.py:19
+#: models.py:21
 msgid "Temporary error"
 msgstr ""
 
-#: models.py:20
+#: models.py:22
 msgid "Permanent error"
 msgstr ""
 
-#: models.py:24
+#: models.py:26
 msgid "Policy"
 msgstr ""
 
-#: models.py:28
+#: models.py:30
 msgid "Soft failure"
 msgstr ""
 
-#: modo_extension.py:15
+#: modo_extension.py:16
 msgid "DMARC tools"
 msgstr ""
 
-#: modo_extension.py:18
+#: modo_extension.py:19
 msgid "A set of tools to ease DMARC integration"
 msgstr ""
 
