@@ -1,3 +1,1 @@
-modoboa>=1.5.0
-dnspython
-py-dateutil
+modoboa>=1.7.0
