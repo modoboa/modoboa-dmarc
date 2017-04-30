@@ -1,6 +1,7 @@
 """DMARC views."""
 
 import collections
+import concurrent.futures
 import datetime
 import tldextract
 
@@ -11,6 +12,7 @@ from django.utils import timezone
 from django.views import generic
 
 from django.contrib.auth import mixins as auth_mixins
+from django.utils.translation import ugettext_lazy as _
 
 from modoboa.admin import models as admin_models
 from modoboa.parameters import tools as param_tools
@@ -18,17 +20,8 @@ from modoboa.parameters import tools as param_tools
 from . import models
 
 
-def insert_record(target, record):
+def insert_record(target, record, name):
     """Add a record."""
-    name = "Not resolved"
-    if param_tools.get_global_parameter("enable_rlookups"):
-        addr = reversename.from_address(record.source_ip)
-        try:
-            resp = resolver.query(addr, "PTR")
-            ext = tldextract.extract(str(resp[0].target))
-            name = '.'.join((ext.domain, ext.suffix)).lower()
-        except (resolver.NXDOMAIN, resolver.NoNameservers, resolver.Timeout):
-            pass
 
     if name not in target:
         target[name] = {}
@@ -103,17 +96,41 @@ class DomainReportView(
             iterator += step
         trusted = collections.OrderedDict()
         threats = collections.OrderedDict()
-        for record in qset.all():
+
+        all_records = qset.all()
+        dns_names = {}
+        if param_tools.get_global_parameter("enable_rlookups"):
+            dns_resolver = resolver.Resolver()
+            dns_resolver.timeout = 1.0;
+            dns_resolver.lifetime = 1.0;
+
+            def get_domain_name_from_ip(ip):
+                addr = reversename.from_address(ip)
+                try:
+                    resp = dns_resolver.query(addr, "PTR")
+                    ext = tldextract.extract(str(resp[0].target))
+                    return (ip, '.'.join((ext.domain, ext.suffix)).lower())
+                except (resolver.NXDOMAIN, resolver.YXDOMAIN, resolver.NoAnswer,
+                        resolver.NoNameservers, resolver.Timeout):
+                    return (None, None)
+
+            ips = (r.source_ip for r in all_records)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=16) as pool:
+                dns_names = {i: n for (i, n) in
+                             list(pool.map(get_domain_name_from_ip, ips))}
+
+        for record in all_records:
             stats["total"] += record.count
+            name = dns_names.get(record.source_ip, _("Not resolved"))
             if record.dkim_result == "pass" and record.spf_result == "pass":
                 stats["aligned"] += record.count
                 stats["trusted"] += record.count
-                insert_record(trusted, record)
+                insert_record(trusted, record, name)
             elif record.dkim_result == "pass" or record.spf_result == "pass":
                 stats["trusted"] += record.count
-                insert_record(trusted, record)
+                insert_record(trusted, record, name)
             else:
-                insert_record(threats, record)
+                insert_record(threats, record, name)
                 stats["failed"] += record.count
 
         stats["paligned"] = (
