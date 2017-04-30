@@ -26,7 +26,7 @@ def insert_record(target, record):
         try:
             resp = resolver.query(addr, "PTR")
             ext = tldextract.extract(str(resp[0].target))
-            name = '.'.join((ext.domain, ext.suffix))
+            name = '.'.join((ext.domain, ext.suffix)).lower()
         except (resolver.NXDOMAIN, resolver.NoNameservers, resolver.Timeout):
             pass
 
