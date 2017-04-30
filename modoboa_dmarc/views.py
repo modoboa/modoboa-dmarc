@@ -2,6 +2,7 @@
 
 import collections
 import datetime
+import tldextract
 
 from dns import resolver, reversename
 
@@ -24,10 +25,8 @@ def insert_record(target, record):
         addr = reversename.from_address(record.source_ip)
         try:
             resp = resolver.query(addr, "PTR")
-            node = resp[0].target
-            while len(node.labels) > 3:
-                node = node.parent()
-            name = node
+            ext = tldextract.extract(str(resp[0].target))
+            name = '.'.join((ext.domain, ext.suffix))
         except (resolver.NXDOMAIN, resolver.NoNameservers, resolver.Timeout):
             pass
 
