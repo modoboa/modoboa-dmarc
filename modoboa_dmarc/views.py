@@ -1,6 +1,5 @@
 """DMARC views."""
 
-import collections
 import concurrent.futures
 import datetime
 import tldextract
@@ -88,21 +87,14 @@ class DomainReportView(
             "trusted": 0,
             "failed": 0
         }
-        stats_per_day = collections.OrderedDict()
-        step = datetime.timedelta(days=1)
-        iterator = self.daterange[0]
-        while iterator <= self.daterange[1]:
-            stats_per_day[iterator.date()] = {}
-            iterator += step
-        trusted = collections.OrderedDict()
-        threats = collections.OrderedDict()
-
+        trusted = {}
+        threats = {}
         all_records = qset.all()
         dns_names = {}
         if param_tools.get_global_parameter("enable_rlookups"):
             dns_resolver = resolver.Resolver()
-            dns_resolver.timeout = 1.0;
-            dns_resolver.lifetime = 1.0;
+            dns_resolver.timeout = 1.0
+            dns_resolver.lifetime = 1.0
 
             def get_domain_name_from_ip(ip):
                 addr = reversename.from_address(ip)
@@ -112,8 +104,9 @@ class DomainReportView(
                     if not ext.suffix:  # invalid PTR record
                         raise resolver.NXDOMAIN()
                     return (ip, '.'.join((ext.domain, ext.suffix)).lower())
-                except (resolver.NXDOMAIN, resolver.YXDOMAIN, resolver.NoAnswer,
-                        resolver.NoNameservers, resolver.Timeout):
+                except (resolver.NXDOMAIN, resolver.YXDOMAIN,
+                        resolver.NoAnswer, resolver.NoNameservers,
+                        resolver.Timeout):
                     return (None, None)
 
             ips = (r.source_ip for r in all_records)
