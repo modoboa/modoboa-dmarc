@@ -109,6 +109,8 @@ class DomainReportView(
                 try:
                     resp = dns_resolver.query(addr, "PTR")
                     ext = tldextract.extract(str(resp[0].target))
+                    if not ext.suffix:  # invalid PTR record
+                        raise resolver.NXDOMAIN()
                     return (ip, '.'.join((ext.domain, ext.suffix)).lower())
                 except (resolver.NXDOMAIN, resolver.YXDOMAIN, resolver.NoAnswer,
                         resolver.NoNameservers, resolver.Timeout):
