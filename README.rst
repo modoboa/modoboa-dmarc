@@ -5,7 +5,7 @@ modoboa-dmarc
 
 A set of tools to use DMARC through Modoboa.
 
-This plugin is still in BETA stage, for now it only parse XML aggregated
+This plugin is still in BETA stage, for now it only parses XML aggregated
 reports and generate visual reports (using c3.js) on a per-domain basis.
 
 Installation
