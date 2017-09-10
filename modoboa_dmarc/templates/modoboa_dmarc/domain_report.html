@@ -75,7 +75,7 @@
             </div>
           </div>
         </div>
- 
+
         <div class="col-sm-6">
           <div class="panel panel-success text-center">
             <div class="panel-body">
@@ -93,7 +93,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="col-sm-6">
           <div class="panel panel-danger text-center">
             <div class="panel-body">
@@ -115,18 +115,18 @@
     <h1><small>{% trans "Trusted sources" %} <span class="text-success">{{ stats.trusted }}</span></small></h1>
 
     <table class="table">
-      {% for domain, stats in trusted.items %}
+      {% for domain, stats in trusted|domain_sorted_items %}
         {% include "modoboa_dmarc/_result_detail.html" with domain=domain stats=stats %}
       {% endfor %}
     </table>
 
     <h1><small>{% trans "Unknown sources / Threats" %} <span class="text-danger">{{ stats.failed }}</span></small></h1>
-    
+
     <table class="table">
-      {% for domain, stats in threats.items %}
+      {% for domain, stats in threats|domain_sorted_items %}
         {% include "modoboa_dmarc/_result_detail.html" with domain=domain stats=stats only_failed=True %}
       {% endfor %}
     </table>
   </div>
-  
+
 {% endblock %}
