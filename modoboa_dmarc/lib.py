@@ -14,6 +14,7 @@ import pytz.exceptions
 
 from django.db import transaction
 from django.utils.encoding import smart_text
+from django.utils import timezone
 
 from modoboa.admin import models as admin_models
 
@@ -87,10 +88,12 @@ def import_report(content):
     report = models.Report(reporter=reporter)
 
     report.report_id = feedback.report_metadata.report_id
-    report.start_date = datetime.datetime.fromtimestamp(
-        feedback.report_metadata.date_range.begin)
-    report.end_date = datetime.datetime.fromtimestamp(
-        feedback.report_metadata.date_range.end)
+    report.start_date = timezone.make_aware(
+        datetime.datetime.fromtimestamp(
+            feedback.report_metadata.date_range.begin))
+    report.end_date = timezone.make_aware(
+        datetime.datetime.fromtimestamp(
+            feedback.report_metadata.date_range.end))
 
     for attr in ["domain", "adkim", "aspf", "p", "sp", "pct"]:
         try:
