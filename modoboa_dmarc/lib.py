@@ -1,5 +1,7 @@
 """Internal library."""
 
+from __future__ import print_function
+
 import datetime
 import email
 import fileinput
@@ -11,6 +13,7 @@ import gzip
 
 from lxml import objectify
 import pytz.exceptions
+import six
 
 from django.db import transaction
 from django.utils.encoding import smart_text
@@ -56,7 +59,7 @@ def import_record(xml_node, report):
             break
         header_from = header_from[1:]
     if domain is None:
-        print "Invalid record found (domain not local)"
+        print("Invalid record found (domain not local)")
         return None
 
     record.save()
@@ -73,9 +76,11 @@ def import_record(xml_node, report):
 def import_report(content):
     """Import an aggregated report."""
     feedback = objectify.fromstring(content)
-    print "Importing report {} received from {}".format(
-        feedback.report_metadata.report_id,
-        feedback.report_metadata.org_name)
+    print(
+        "Importing report {} received from {}".format(
+            feedback.report_metadata.report_id,
+            feedback.report_metadata.org_name)
+    )
     reporter, created = models.Reporter.objects.get_or_create(
         email=feedback.report_metadata.email,
         defaults={"org_name": feedback.report_metadata.org_name}
@@ -83,7 +88,7 @@ def import_report(content):
     qs = models.Report.objects.filter(
         reporter=reporter, report_id=feedback.report_metadata.report_id)
     if qs.exists():
-        print "Report already imported."""
+        print("Report already imported.")
         return
     report = models.Report(reporter=reporter)
 
@@ -106,7 +111,7 @@ def import_report(content):
     try:
         report.save()
     except (pytz.exceptions.AmbiguousTimeError):
-        print "Report skipped because of invalid date."""
+        print("Report skipped because of invalid date.")
         return
     for record in feedback.record:
         import_record(record, report)
@@ -131,7 +136,7 @@ def import_archive(archive, content_type=None):
 
 def import_report_from_email(content):
     """Import a report from an email."""
-    if type(content) in [str, unicode]:
+    if isinstance(content, six.string_types):
         msg = email.message_from_string(content)
     else:
         msg = email.message_from_file(content)

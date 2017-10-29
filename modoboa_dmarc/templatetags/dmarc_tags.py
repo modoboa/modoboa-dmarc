@@ -29,15 +29,17 @@ def previous_period(period):
     parts = current.isocalendar()
     return mark_safe("{}-{}".format(parts[0], parts[1]))
 
+
 @register.filter
 def domain_sorted_items(domain_dict):
     """Return a list of tuples ordered alphabetically by domain names."""
     if isinstance(domain_dict, dict):
-        sorted_domain_dict = OrderedDict(sorted(domain_dict.items(), key=lambda t: t[0]))
+        sorted_domain_dict = OrderedDict(
+            sorted(domain_dict.items(), key=lambda t: t[0]))
         unresolved_label = _("Not resolved")
         unresolved = sorted_domain_dict.pop(unresolved_label, None)
         if unresolved:
             sorted_domain_dict[unresolved_label] = unresolved
         return sorted_domain_dict.items()
 
-    raise ValueException("domain_dict is not a dict")
+    raise ValueError("domain_dict is not a dict")
