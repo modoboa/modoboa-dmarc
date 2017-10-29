@@ -1,7 +1,7 @@
 modoboa-dmarc
 =============
 
-|landscape|
+|travis| |codecov| |landscape|
 
 A set of tools to use DMARC through Modoboa.
 
@@ -72,7 +72,11 @@ Finally, reload postfix::
 
   $ service postfix reload
 
+.. |travis| image:: https://travis-ci.org/modoboa/modoboa-dmarc.svg?branch=master
+   :target: https://travis-ci.org/modoboa/modoboa-dmarc
 
+.. |codecov| image:: https://codecov.io/gh/modoboa/modoboa-dmarc/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/modoboa/modoboa-dmarc
 .. |landscape| image:: https://landscape.io/github/modoboa/modoboa-dmarc/master/landscape.svg?style=flat
    :target: https://landscape.io/github/modoboa/modoboa-dmarc/master
    :alt: Code Health
