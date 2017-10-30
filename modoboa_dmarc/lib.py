@@ -142,7 +142,7 @@ def import_report_from_email(content):
     for part in msg.walk():
         if part.get_content_type() not in ZIP_CONTENT_TYPES:
             continue
-        fpo = six.StringIO(part.get_payload(decode=True))
+        fpo = six.BytesIO(part.get_payload(decode=True))
         import_archive(fpo, content_type=part.get_content_type())
         fpo.close()
 
