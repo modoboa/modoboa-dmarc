@@ -7,7 +7,6 @@ import email
 import fileinput
 import getpass
 import imaplib
-from StringIO import StringIO
 import zipfile
 import gzip
 
@@ -143,14 +142,14 @@ def import_report_from_email(content):
     for part in msg.walk():
         if part.get_content_type() not in ZIP_CONTENT_TYPES:
             continue
-        fpo = StringIO(part.get_payload(decode=True))
+        fpo = six.StringIO(part.get_payload(decode=True))
         import_archive(fpo, content_type=part.get_content_type())
         fpo.close()
 
 
 def import_report_from_stdin():
     """Parse a report from stdin."""
-    content = StringIO()
+    content = six.StringIO()
     for line in fileinput.input([]):
         content.write(line)
     content.seek(0)
