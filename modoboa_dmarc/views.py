@@ -39,12 +39,13 @@ def insert_record(target, record, name):
 
 def week_range(year, weeknumber):
     """Return start and end dates of a given week."""
+    tz = timezone.get_current_timezone()
     fmt = "%Y-%W-%w"
     start_week = datetime.datetime.strptime(
         "{}-{}-{}".format(year, weeknumber, 1), fmt)
     end_week = datetime.datetime.strptime(
         "{}-{}-{}".format(year, weeknumber, 0), fmt)
-    return start_week, end_week
+    return tz.localize(start_week), tz.localize(end_week)
 
 
 class DomainReportView(
