@@ -30,7 +30,7 @@ before_script:
 
 script:
   - cd test_project
-  - coverage run --source ../modoboa_webmail manage.py test modoboa_dmarc
+  - coverage run --source ../modoboa_dmarc manage.py test modoboa_dmarc
 
 after_success:
   - codecov
