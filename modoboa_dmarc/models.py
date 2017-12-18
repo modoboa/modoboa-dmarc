@@ -54,7 +54,7 @@ class Report(models.Model):
     """Aggregated reports."""
 
     report_id = models.CharField(max_length=100)
-    reporter = models.ForeignKey(Reporter)
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
@@ -80,7 +80,7 @@ class Record(models.Model):
 
     """Report records."""
 
-    report = models.ForeignKey(Report)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
     source_ip = models.GenericIPAddressField()
     count = models.IntegerField()
 
@@ -91,7 +91,8 @@ class Record(models.Model):
         max_length=9, choices=DKIM_RESULTS)
     spf_result = models.CharField(
         max_length=9, choices=SPF_RESULTS)
-    header_from = models.ForeignKey(admin_models.Domain)
+    header_from = models.ForeignKey(admin_models.Domain,
+                                    on_delete=models.CASCADE)
     reason_type = models.CharField(max_length=15, blank=True)
     reason_comment = models.CharField(max_length=100, blank=True)
 
@@ -100,7 +101,7 @@ class Result(models.Model):
 
     """Record results."""
 
-    record = models.ForeignKey(Record)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
     type = models.CharField(max_length=4, choices=RECORD_TYPES)
     domain = models.CharField(max_length=100)
     result = models.CharField(max_length=9)
