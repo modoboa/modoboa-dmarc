@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('spf_result', models.CharField(max_length=9, choices=[(b'none', 'None'), (b'neutral', 'Neutral'), (b'pass', 'Pass'), (b'fail', 'Fail'), (b'temperror', 'Temporary error'), (b'permerror', 'Permanent error'), (b'softfail', 'Soft failure')])),
                 ('reason_type', models.CharField(max_length=15, blank=True)),
                 ('reason_comment', models.CharField(max_length=100, blank=True)),
-                ('header_from', models.ForeignKey(to='admin.Domain')),
+                ('header_from', models.ForeignKey(to='admin.Domain', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
                 ('type', models.CharField(max_length=4, choices=[(b'dkim', b'DKIM'), (b'spf', b'SPF')])),
                 ('domain', models.CharField(max_length=100)),
                 ('result', models.CharField(max_length=9)),
-                ('record', models.ForeignKey(to='modoboa_dmarc.Record')),
+                ('record', models.ForeignKey(to='modoboa_dmarc.Record', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='report',
             name='reporter',
-            field=models.ForeignKey(to='modoboa_dmarc.Reporter'),
+            field=models.ForeignKey(to='modoboa_dmarc.Reporter', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='record',
             name='report',
-            field=models.ForeignKey(to='modoboa_dmarc.Report'),
+            field=models.ForeignKey(to='modoboa_dmarc.Report', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

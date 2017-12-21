@@ -1,6 +1,6 @@
 """Views tests."""
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from modoboa.admin import factories as admin_factories
 from modoboa.core import models as core_models
