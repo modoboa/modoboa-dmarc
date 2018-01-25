@@ -16,26 +16,18 @@ sudo: false
 
 cache: pip
 
-services:
-  - postgres
-  - mysql
+addons:
+  postgresql: "9.3"
+  mysql: "5.5"
 
 before_install:
   - pip install codecov
-  - if [[ $DB = "POSTGRESQL" ]]; then pip install -q psycopg2; fi
-  - if [[ $DB = "MYSQL" ]]; then pip install -q mysqlclient; fi
-  - pip install -e git+https://github.com/modoboa/modoboa#egg=modoboa
+  - pip install -e git+https://github.com/modoboa/modoboa.git#egg=modoboa
 
 install:
-  - pip install -q -r requirements.txt
-  - pip install -q -r test-requirements.txt
-  - python setup.py -q develop
-
-before_script:
-  - if [[ $DB = "POSTGRESQL" ]]; then psql -c "CREATE DATABASE modoboa_test;" -U postgres; fi
-  - if [[ $DB = "MYSQL" ]]; then mysql -e "CREATE DATABASE IF NOT EXISTS modoboa_test;" -uroot; fi
-  - if [[ $DB = "MYSQL" ]]; then mysql -e "CREATE USER 'modoboa'@'localhost' IDENTIFIED BY 'modoboa'" -uroot; fi
-  - if [[ $DB = "MYSQL" ]]; then mysql -e "GRANT ALL PRIVILEGES ON * . * TO 'modoboa'@'localhost';" -uroot; fi
+  - pip install -r requirements.txt
+  - pip install -r test-requirements.txt
+  - python setup.py develop
 
 script:
   - cd test_project
@@ -55,6 +47,8 @@ deploy:
   password:
     secure: FUgRGH8DZ6+89/GW4tY37dMT+pyO32BpQ3uCmRBsC7lVQO+R+ILAE5lUa+K5lzI5YMLFILpqKi6Q2z+uCsW0VYn1BHLnpZX+Sjedgu2/TOsQPTuxXCPzpxXl+RyS6uknT/3srGmtVS8t6p3bVQMddbQFLlFvKapKrPMDkIRmQaH+nbOmRbarJrD13DSZwxARrga1sJqqxpBdtw0P1ZZt7jb+vmTENWBKY7NRMBMQ75v7Jt/faaN9CgczX9i4DRsHdTyC7ReZMcb+Xdq9Tgd37ME1mPQyjLbnAt4tM9OIuLMnaYtb43lhGlYxqVp+WyASvXnfYREiLobr5L4D5ZMuCB5KJRdRNyD244B7KN9zDdqkv8iBlTYLvJveNk/mOHwPrAbmnKOQmtybkF1a4MWbS8OWfrP0eEKQ4ffoPt0NdkZN3Ojhr+w3OXVADvQYO4OQ5THJOgnJjx/jQWZ2V3/hb4scdsyXSbAIrmoN0k8IZYrF696dy1btiXVP/zj15AnAC6zCK31xSvjsUaTlPm1aRuMvzXWohyx+xy3lJZjRwBtj1nkguwbLG+g9y0lSs0NQgxXevWmCdZfshxG0bGymuCNyZRjs4lp2NPAbCpRHVenY7KEYnoCWIPi/9XQT3OkbRT+8Y6b+DltsbKuSlf9YFJq4ukDntOvR+lmTqpxe3HU=
   skip_cleanup: true
+  distributions: "sdist bdist_wheel"
   on:
     tags: true
-    python: '3.6'
+    python: "3.6"
+    condition: $DB = POSTGRESQL
