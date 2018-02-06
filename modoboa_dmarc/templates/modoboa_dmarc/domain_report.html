@@ -1,6 +1,6 @@
 {% extends "admin/domains.html" %}
 
-{% load i18n %}
+{% load i18n l10n %}
 {% load static %}
 {% load admin_tags %}
 {% load dmarc_tags %}
@@ -18,9 +18,9 @@
            bindto: '#global_distribution',
            data: {
                columns: [
-                   ['{% trans "Fully aligned" %}', {{ pie_data.faligned }}],
-                   ['{% trans "Partially aligned" %}', {{ pie_data.paligned }}],
-                   ['{% trans "Failed" %}', {{ pie_data.failed }}]
+                   ['{% trans "Fully aligned" %}', {{ pie_data.faligned|unlocalize }}],
+                   ['{% trans "Partially aligned" %}', {{ pie_data.paligned|unlocalize }}],
+                   ['{% trans "Failed" %}', {{ pie_data.failed|unlocalize }}]
                ],
                colors: {
                    '{% trans "Fully aligned" %}': 'limegreen',
