@@ -45,5 +45,5 @@ class CallCommandMixin(object):
             fpath = os.path.join(path, f)
             if f.startswith(".") or not os.path.isfile(fpath):
                 continue
-            ret = self.import_report(fpath)
-            self.assertNotIn('ERROR-PARSING', ret)
+            with self.assertRaisesMessage(SystemExit, '65'):
+                self.import_report(fpath)

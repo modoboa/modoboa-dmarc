@@ -9,6 +9,7 @@ import getpass
 import imaplib
 import zipfile
 import gzip
+import sys
 
 from lxml import objectify
 import pytz.exceptions
@@ -139,12 +140,23 @@ def import_report_from_email(content):
         msg = email.message_from_string(content)
     else:
         msg = email.message_from_file(content)
+    err = False
     for part in msg.walk():
         if part.get_content_type() not in ZIP_CONTENT_TYPES:
             continue
-        fpo = six.BytesIO(part.get_payload(decode=True))
-        import_archive(fpo, content_type=part.get_content_type())
-        fpo.close()
+        try:
+            fpo = six.BytesIO(part.get_payload(decode=True))
+            import_archive(fpo, content_type=part.get_content_type())
+        except OSError:
+            print('Error: the attachment does not match the mimetype')
+            err = True
+        else:
+            fpo.close()
+    if err:
+        # Return EX_DATAERR code <data format error> available
+        # at sysexits.h file
+        # (see http://www.postfix.org/pipe.8.html)
+        sys.exit(65)
 
 
 def import_report_from_stdin():
