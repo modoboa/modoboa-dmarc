@@ -147,7 +147,7 @@ def import_report_from_email(content):
         try:
             fpo = six.BytesIO(part.get_payload(decode=True))
             import_archive(fpo, content_type=part.get_content_type())
-        except OSError:
+        except (OSError, IOError):
             print('Error: the attachment does not match the mimetype')
             err = True
         else:
