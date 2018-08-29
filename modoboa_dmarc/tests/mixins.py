@@ -6,6 +6,7 @@ import sys
 import six
 
 from django.core.management import call_command
+from django.utils.six import StringIO
 
 
 class CallCommandMixin(object):
@@ -24,7 +25,9 @@ class CallCommandMixin(object):
         with open(path) as fp:
             buf = six.StringIO(fp.read())
         sys.stdin = buf
-        call_command("import_aggregated_report", "--pipe")
+        out = StringIO()
+        call_command("import_aggregated_report", "--pipe", stdout=out)
+        return out.getvalue()
 
     def import_reports(self, folder="reports"):
         """Import reports from folder."""
@@ -34,3 +37,13 @@ class CallCommandMixin(object):
             if f.startswith(".") or not os.path.isfile(fpath):
                 continue
             self.import_report(fpath)
+
+    def import_fail_reports(self, folder="fail-reports"):
+        """Import failed reports from folder."""
+        path = os.path.join(os.path.dirname(__file__), folder)
+        for f in os.listdir(path):
+            fpath = os.path.join(path, f)
+            if f.startswith(".") or not os.path.isfile(fpath):
+                continue
+            with self.assertRaisesMessage(SystemExit, '65'):
+                self.import_report(fpath)
