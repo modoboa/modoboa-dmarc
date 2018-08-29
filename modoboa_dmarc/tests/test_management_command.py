@@ -18,6 +18,7 @@ class ManagementCommandTestCase(mixins.CallCommandMixin, ModoTestCase):
     def test_import_from_archive(self):
         """Import report from archive."""
         self.import_reports()
+        self.import_fail_reports()
         self.assertTrue(self.domain.record_set.exists())
         self.assertTrue(
             models.Reporter.objects.filter(

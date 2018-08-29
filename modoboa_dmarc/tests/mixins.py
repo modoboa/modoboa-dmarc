@@ -34,3 +34,13 @@ class CallCommandMixin(object):
             if f.startswith(".") or not os.path.isfile(fpath):
                 continue
             self.import_report(fpath)
+
+    def import_fail_reports(self, folder="fail-reports"):
+        """Import failed reports from folder."""
+        path = os.path.join(os.path.dirname(__file__), folder)
+        for f in os.listdir(path):
+            fpath = os.path.join(path, f)
+            if f.startswith(".") or not os.path.isfile(fpath):
+                continue
+            self.import_report(fpath)
+            # TODO check return code different from 0
