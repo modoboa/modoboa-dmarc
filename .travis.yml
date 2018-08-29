@@ -21,6 +21,7 @@ addons:
   mysql: '5.5'
 
 before_install:
+  - pip install --upgrade pip
   - pip install codecov
   - pip install -e git+https://github.com/modoboa/modoboa.git#egg=modoboa
 
