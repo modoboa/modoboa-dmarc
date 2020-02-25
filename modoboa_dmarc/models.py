@@ -65,7 +65,6 @@ class Report(models.Model):
     policy_pct = models.SmallIntegerField()
 
     class Meta:
-        permissions = (("view_report", "Can view report"), )
         unique_together = ("reporter", "report_id")
 
     def __str__(self):
