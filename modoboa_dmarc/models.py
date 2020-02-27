@@ -1,7 +1,6 @@
 """DMARC models."""
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from modoboa.admin import models as admin_models
@@ -36,7 +35,6 @@ RECORD_TYPES = [
 ]
 
 
-@python_2_unicode_compatible
 class Reporter(models.Model):
 
     """Report issuers."""
@@ -67,7 +65,6 @@ class Report(models.Model):
     policy_pct = models.SmallIntegerField()
 
     class Meta:
-        permissions = (("view_report", "Can view report"), )
         unique_together = ("reporter", "report_id")
 
     def __str__(self):

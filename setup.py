@@ -13,10 +13,10 @@ import io
 from os import path
 from setuptools import setup, find_packages
 
-try: # for pip >= 10
-        from pip._internal.req import parse_requirements
-except ImportError: # for pip <= 9.0.3
-        from pip.req import parse_requirements
+try:  # for pip >= 10
+    from pip._internal.req import parse_requirements
+except ImportError:  # for pip <= 9.0.3
+    from pip.req import parse_requirements
 
 
 def get_requirements(requirements_file):
@@ -55,12 +55,10 @@ if __name__ == "__main__":
             "Intended Audience :: System Administrators",
             "License :: OSI Approved :: MIT License",
             "Operating System :: OS Independent",
-            "Programming Language :: Python :: 2",
-            "Programming Language :: Python :: 2.7",
             "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.4",
             "Programming Language :: Python :: 3.5",
             "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
             "Topic :: Communications :: Email",
             "Topic :: Internet :: WWW/HTTP",
         ],

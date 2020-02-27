@@ -1,10 +1,12 @@
 """DMARC urls."""
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
+app_name = "modoboa_dmarc"
+
 urlpatterns = [
-    url(r"^domains/(?P<pk>\d+)/$", views.DomainReportView.as_view(),
-        name="domain_report"),
+    path("domains/<int:pk>/", views.DomainReportView.as_view(),
+         name="domain_report"),
 ]
