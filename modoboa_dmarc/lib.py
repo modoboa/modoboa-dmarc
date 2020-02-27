@@ -1,7 +1,5 @@
 """Internal library."""
 
-from __future__ import print_function
-
 import datetime
 import email
 import fileinput
@@ -11,7 +9,7 @@ import zipfile
 import gzip
 import sys
 
-from lxml import objectify
+from defusedxml.ElementTree import fromstring
 import pytz.exceptions
 import six
 
@@ -36,20 +34,24 @@ ZIP_CONTENT_TYPES = [
 def import_record(xml_node, report):
     """Import a record."""
     record = models.Record(report=report)
-    record.source_ip = xml_node.row.source_ip
-    record.count = int(xml_node.row.count)
+    row = xml_node.find("row")
+    record.source_ip = row.find("source_ip").text
+    record.count = int(row.find("count").text)
 
-    record.disposition = xml_node.row.policy_evaluated.disposition
-    record.dkim_result = xml_node.row.policy_evaluated.dkim
-    record.spf_result = xml_node.row.policy_evaluated.spf
-    if hasattr(xml_node.row.policy_evaluated, "reason"):
-        record.reason_type = smart_text(
-            xml_node.row.policy_evaluated.reason.type)[:14]
+    policy_evaluated = row.find("policy_evaluated")
+    record.disposition = policy_evaluated.find("disposition").text
+    record.dkim_result = policy_evaluated.find("dkim").text
+    record.spf_result = policy_evaluated.find("spf").text
+    reason = policy_evaluated.find("reason")
+    if reason:
+        record.reason_type = smart_text(reason.find("type").text)[:14]
         if record.reason_type not in constants.ALLOWED_REASON_TYPES:
             record.reason_type = "other"
-        record.reason_comment = xml_node.row.policy_evaluated.reason.comment
+        comment = reason.find("comment").text or ""
+        record.reason_comment = comment
 
-    header_from = xml_node.identifiers.header_from.text.split(".")
+    identifiers = xml_node.find("identifiers")
+    header_from = identifiers.find("header_from").text.split(".")
     domain = None
     while len(header_from) >= 2:
         domain = admin_models.Domain.objects.filter(
@@ -63,48 +65,52 @@ def import_record(xml_node, report):
         return None
 
     record.save()
+    auth_results = xml_node.find("auth_results")
     for rtype in ["spf", "dkim"]:
-        if not hasattr(xml_node.auth_results, rtype):
+        rnode = auth_results.find(rtype)
+        if not rnode:
             continue
-        rnode = getattr(xml_node.auth_results, rtype)
         models.Result.objects.create(
-            record=record, type=rtype, domain=rnode.domain,
-            result=rnode.result)
+            record=record, type=rtype, domain=rnode.find("domain").text,
+            result=rnode.find("result").text)
 
 
 @transaction.atomic
 def import_report(content):
     """Import an aggregated report."""
-    feedback = objectify.fromstring(content)
+    root = fromstring(content, forbid_dtd=True)
+    metadata = root.find("report_metadata")
     print(
         "Importing report {} received from {}".format(
-            feedback.report_metadata.report_id,
-            feedback.report_metadata.org_name)
+            metadata.find("report_id").text,
+            metadata.find("org_name").text)
     )
     reporter, created = models.Reporter.objects.get_or_create(
-        email=feedback.report_metadata.email,
-        defaults={"org_name": feedback.report_metadata.org_name}
+        email=metadata.find("email").text,
+        defaults={"org_name": metadata.find("org_name").text}
     )
     qs = models.Report.objects.filter(
-        reporter=reporter, report_id=feedback.report_metadata.report_id)
+        reporter=reporter, report_id=metadata.find("report_id").text)
     if qs.exists():
         print("Report already imported.")
         return
     report = models.Report(reporter=reporter)
 
-    report.report_id = feedback.report_metadata.report_id
+    report.report_id = metadata.find("report_id").text
+    date_range = metadata.find("date_range")
     report.start_date = timezone.make_aware(
-        datetime.datetime.fromtimestamp(
-            feedback.report_metadata.date_range.begin))
+        datetime.datetime.fromtimestamp(int(date_range.find("begin").text))
+    )
     report.end_date = timezone.make_aware(
-        datetime.datetime.fromtimestamp(
-            feedback.report_metadata.date_range.end))
+        datetime.datetime.fromtimestamp(int(date_range.find("end").text))
+    )
 
+    policy_published = root.find("policy_published")
     for attr in ["domain", "adkim", "aspf", "p", "sp", "pct"]:
         try:
             setattr(
                 report, "policy_{}".format(attr),
-                getattr(feedback.policy_published, attr)
+                policy_published.find(attr).text
             )
         except AttributeError:
             pass
@@ -113,7 +119,7 @@ def import_report(content):
     except (pytz.exceptions.AmbiguousTimeError):
         print("Report skipped because of invalid date.")
         return
-    for record in feedback.record:
+    for record in root.findall("record"):
         import_record(record, report)
 
 

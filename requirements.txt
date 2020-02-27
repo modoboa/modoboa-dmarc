@@ -1,4 +1,4 @@
 modoboa>=1.10.0
 tldextract>=2.0.2
 futures>=3.1.0
-lxml
+defusedxml>=0.6.0
