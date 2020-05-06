@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Antoine Nguyen <tonio@ngyn.org>, 2017
+# Antoine Nguyen <tonio@ngyn.org>, 2017,2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Modoboa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-03 09:18+0100\n"
-"PO-Revision-Date: 2017-03-03 08:23+0000\n"
+"POT-Creation-Date: 2020-05-06 14:05+0200\n"
+"PO-Revision-Date: 2020-05-06 12:07+0000\n"
 "Last-Translator: Antoine Nguyen <tonio@ngyn.org>\n"
 "Language-Team: French (http://www.transifex.com/tonio/modoboa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -34,43 +34,43 @@ msgstr "Activer les recherches DNS inversées (les rapports seront plus longs à
 msgid "Show DMARC report for {}"
 msgstr "Afficher le rapport DMARC pour {}"
 
-#: models.py:11 models.py:17
+#: models.py:10 models.py:16
 msgid "None"
 msgstr "Aucun"
 
-#: models.py:12
+#: models.py:11
 msgid "Quarantine"
 msgstr "Quarantaine"
 
-#: models.py:13
+#: models.py:12
 msgid "Reject"
 msgstr "Rejeter"
 
-#: models.py:18
+#: models.py:17
 msgid "Neutral"
 msgstr "Neutre"
 
-#: models.py:19
+#: models.py:18
 msgid "Pass"
 msgstr "Succès"
 
-#: models.py:20
+#: models.py:19
 msgid "Fail"
 msgstr "Echec"
 
-#: models.py:21
+#: models.py:20
 msgid "Temporary error"
 msgstr "Erreur temporaire"
 
-#: models.py:22
+#: models.py:21
 msgid "Permanent error"
 msgstr "Erreur permanente"
 
-#: models.py:26
+#: models.py:25
 msgid "Policy"
 msgstr "Politique"
 
-#: models.py:30
+#: models.py:29
 msgid "Soft failure"
 msgstr "Erreur soft"
 
@@ -81,16 +81,6 @@ msgstr "Outils DMARC"
 #: modo_extension.py:19
 msgid "A set of tools to ease DMARC integration"
 msgstr "Un jeu d'outils pour faciliter l'intégration de DMARC"
-
-#: templates/modoboa_dmarc/_report_detail.html:3
-#: templates/modoboa_dmarc/domain_report.html:115
-msgid "Trusted sources"
-msgstr "Sources de confiance"
-
-#: templates/modoboa_dmarc/_report_detail.html:11
-#: templates/modoboa_dmarc/domain_report.html:123
-msgid "Unknown sources / Threats"
-msgstr "Sources inconnues / Menaces"
 
 #: templates/modoboa_dmarc/_result_detail.html:6
 msgid "Total"
@@ -134,3 +124,15 @@ msgstr "en échec"
 #: templates/modoboa_dmarc/domain_report.html:111
 msgid "Display details"
 msgstr "Afficher les détails"
+
+#: templates/modoboa_dmarc/domain_report.html:115
+msgid "Trusted sources"
+msgstr "Sources de confiance"
+
+#: templates/modoboa_dmarc/domain_report.html:123
+msgid "Unknown sources / Threats"
+msgstr "Sources inconnues / Menaces"
+
+#: templatetags/dmarc_tags.py:59 views.py:120
+msgid "Not resolved"
+msgstr "Non résolu"

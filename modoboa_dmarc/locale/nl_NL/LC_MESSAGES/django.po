@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Harrie v.d. Vegt <hvdvegt@gmail.com>, 2016
 # Tuxis Internet Engineering V.O.F. <info@tuxis.nl>, 2016
@@ -10,14 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Modoboa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-03 09:18+0100\n"
+"POT-Creation-Date: 2020-05-06 14:05+0200\n"
 "PO-Revision-Date: 2017-03-03 08:18+0000\n"
 "Last-Translator: Antoine Nguyen <tonio@ngyn.org>\n"
-"Language-Team: Dutch (Netherlands) (http://www.transifex.com/tonio/modoboa/language/nl_NL/)\n"
+"Language-Team: Dutch (Netherlands) (http://www.transifex.com/tonio/modoboa/"
+"language/nl_NL/)\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: forms.py:35
@@ -36,43 +37,43 @@ msgstr ""
 msgid "Show DMARC report for {}"
 msgstr "Toon DMARC rapportage voor {}"
 
-#: models.py:11 models.py:17
+#: models.py:10 models.py:16
 msgid "None"
 msgstr "Geen"
 
-#: models.py:12
+#: models.py:11
 msgid "Quarantine"
 msgstr "Quarantaine"
 
-#: models.py:13
+#: models.py:12
 msgid "Reject"
 msgstr "Afkeuren"
 
-#: models.py:18
+#: models.py:17
 msgid "Neutral"
 msgstr "Neutraal"
 
-#: models.py:19
+#: models.py:18
 msgid "Pass"
 msgstr "Gelukt"
 
-#: models.py:20
+#: models.py:19
 msgid "Fail"
 msgstr "Mislukt"
 
-#: models.py:21
+#: models.py:20
 msgid "Temporary error"
 msgstr "Tijdelijke fout"
 
-#: models.py:22
+#: models.py:21
 msgid "Permanent error"
 msgstr "Permanente fout"
 
-#: models.py:26
+#: models.py:25
 msgid "Policy"
 msgstr "Beleid"
 
-#: models.py:30
+#: models.py:29
 msgid "Soft failure"
 msgstr "Toegestane fout"
 
@@ -83,16 +84,6 @@ msgstr "DMARC gereedschappen"
 #: modo_extension.py:19
 msgid "A set of tools to ease DMARC integration"
 msgstr "Een aantal eenvoudige programmas DMARC"
-
-#: templates/modoboa_dmarc/_report_detail.html:3
-#: templates/modoboa_dmarc/domain_report.html:115
-msgid "Trusted sources"
-msgstr "Vertrouwde bronnen"
-
-#: templates/modoboa_dmarc/_report_detail.html:11
-#: templates/modoboa_dmarc/domain_report.html:123
-msgid "Unknown sources / Threats"
-msgstr "Onbekende bronnen / bedreigingen"
 
 #: templates/modoboa_dmarc/_result_detail.html:6
 msgid "Total"
@@ -136,3 +127,15 @@ msgstr "mislukt"
 #: templates/modoboa_dmarc/domain_report.html:111
 msgid "Display details"
 msgstr "Toon details"
+
+#: templates/modoboa_dmarc/domain_report.html:115
+msgid "Trusted sources"
+msgstr "Vertrouwde bronnen"
+
+#: templates/modoboa_dmarc/domain_report.html:123
+msgid "Unknown sources / Threats"
+msgstr "Onbekende bronnen / bedreigingen"
+
+#: templatetags/dmarc_tags.py:59 views.py:120
+msgid "Not resolved"
+msgstr ""

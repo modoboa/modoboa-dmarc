@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-03 09:18+0100\n"
+"POT-Creation-Date: 2020-05-06 14:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,43 +33,43 @@ msgstr ""
 msgid "Show DMARC report for {}"
 msgstr ""
 
-#: models.py:11 models.py:17
+#: models.py:10 models.py:16
 msgid "None"
 msgstr ""
 
-#: models.py:12
+#: models.py:11
 msgid "Quarantine"
 msgstr ""
 
-#: models.py:13
+#: models.py:12
 msgid "Reject"
 msgstr ""
 
-#: models.py:18
+#: models.py:17
 msgid "Neutral"
 msgstr ""
 
-#: models.py:19
+#: models.py:18
 msgid "Pass"
 msgstr ""
 
-#: models.py:20
+#: models.py:19
 msgid "Fail"
 msgstr ""
 
-#: models.py:21
+#: models.py:20
 msgid "Temporary error"
 msgstr ""
 
-#: models.py:22
+#: models.py:21
 msgid "Permanent error"
 msgstr ""
 
-#: models.py:26
+#: models.py:25
 msgid "Policy"
 msgstr ""
 
-#: models.py:30
+#: models.py:29
 msgid "Soft failure"
 msgstr ""
 
@@ -79,16 +79,6 @@ msgstr ""
 
 #: modo_extension.py:19
 msgid "A set of tools to ease DMARC integration"
-msgstr ""
-
-#: templates/modoboa_dmarc/_report_detail.html:3
-#: templates/modoboa_dmarc/domain_report.html:115
-msgid "Trusted sources"
-msgstr ""
-
-#: templates/modoboa_dmarc/_report_detail.html:11
-#: templates/modoboa_dmarc/domain_report.html:123
-msgid "Unknown sources / Threats"
 msgstr ""
 
 #: templates/modoboa_dmarc/_result_detail.html:6
@@ -132,4 +122,16 @@ msgstr ""
 
 #: templates/modoboa_dmarc/domain_report.html:111
 msgid "Display details"
+msgstr ""
+
+#: templates/modoboa_dmarc/domain_report.html:115
+msgid "Trusted sources"
+msgstr ""
+
+#: templates/modoboa_dmarc/domain_report.html:123
+msgid "Unknown sources / Threats"
+msgstr ""
+
+#: templatetags/dmarc_tags.py:59 views.py:120
+msgid "Not resolved"
 msgstr ""
