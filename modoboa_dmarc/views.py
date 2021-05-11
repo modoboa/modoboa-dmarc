@@ -86,9 +86,12 @@ class DomainReportView(
             "total": 0,
             "aligned": 0,
             "trusted": 0,
+            "forwarded": 0,
             "failed": 0
         }
+        aligned = {}
         trusted = {}
+        forwarded = {}
         threats = {}
         all_records = qset.all()
         dns_names = {}
@@ -120,30 +123,28 @@ class DomainReportView(
             name = dns_names.get(record.source_ip, _("Not resolved"))
             if record.dkim_result == "pass" and record.spf_result == "pass":
                 stats["aligned"] += record.count
-                stats["trusted"] += record.count
-                insert_record(trusted, record, name)
+                insert_record(aligned, record, name)
             elif record.dkim_result == "pass" or record.spf_result == "pass":
                 stats["trusted"] += record.count
                 insert_record(trusted, record, name)
+            elif record.reason_type == "local_policy" and record.reason_comment.startswith("arc=pass"):
+                stats["forwarded"] += record.count
+                insert_record(forwarded, record, name)
             else:
                 insert_record(threats, record, name)
                 stats["failed"] += record.count
 
-        stats["paligned"] = (
-            stats["total"] - (stats["aligned"] + stats["failed"]))
         pie_data = {}
         if stats["total"]:
             pie_data.update({
                 "faligned": stats["aligned"] / float(stats["total"]) * 100,
-                "paligned": (
-                    (stats["trusted"] - stats["aligned"]) /
-                    float(stats["total"]) * 100
-                ),
+                "paligned": stats["trusted"] / float(stats["total"]) * 100,
+                "forwarded": stats["forwarded"] / float(stats["total"]) * 100,
                 "failed": stats["failed"] / float(stats["total"]) * 100
             })
 
         context.update({
-            "stats": stats, "trusted": trusted, "threats": threats,
+            "stats": stats, "aligned": aligned, "trusted": trusted, "forwarded": forwarded, "threats": threats,
             "period": self.period, "daterange": self.daterange,
             "domain": self.domain, "pie_data": pie_data
         })
