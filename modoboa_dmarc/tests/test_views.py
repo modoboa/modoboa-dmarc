@@ -64,3 +64,14 @@ class DMARCViewsTestCase(mixins.CallCommandMixin, ModoTestCase):
         response = self.client.get("{}?period=2018-52".format(url))
         self.assertContains(response, "Dec. 30, 2018")
 
+    def test_domainreport_view_arc(self):
+        """Test domain report view for displaying ARC results"""
+        self.import_reports()
+        user = core_models.User.objects.get(username="admin")
+        self.client.force_login(user)
+        url = reverse("modoboa_dmarc:domain_report", args=[self.domain.pk])
+        response = self.client.get("{}?period=2021-22".format(url))
+        self.assertContains(response, "'Fully aligned', 86.0")
+        self.assertContains(response, "'Partially aligned', 8.0")
+        self.assertContains(response, "'Forwarded', 4.0")
+        self.assertContains(response, "'Failed', 2.0")
