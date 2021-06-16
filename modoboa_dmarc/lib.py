@@ -8,6 +8,7 @@ import imaplib
 import zipfile
 import gzip
 import sys
+import magic
 
 from defusedxml.ElementTree import fromstring
 import pytz.exceptions
@@ -28,6 +29,11 @@ ZIP_CONTENT_TYPES = [
     "application/zip",
     "application/gzip",
     "application/octet-stream",
+    "text/xml",
+]
+
+FILE_TYPES = [
+    "text/plain",
     "text/xml",
 ]
 
@@ -153,7 +159,12 @@ def import_report_from_email(content):
             continue
         try:
             fpo = six.BytesIO(part.get_payload(decode=True))
-            import_archive(fpo, content_type=part.get_content_type())
+            # Try to get the actual file type of the buffer
+            # required to make sure we are dealing with an XML file
+            file_type = magic.Magic(uncompress=True, mime=True).from_buffer(fpo.read(2048))
+            fpo.seek(0)
+            if file_type in FILE_TYPES:
+                import_archive(fpo, content_type=part.get_content_type())
         except (OSError, IOError):
             print('Error: the attachment does not match the mimetype')
             err = True
