@@ -20,11 +20,13 @@
                columns: [
                    ['{% trans "Fully aligned" %}', {{ pie_data.faligned|unlocalize }}],
                    ['{% trans "Partially aligned" %}', {{ pie_data.paligned|unlocalize }}],
+                   ['{% trans "Forwarded" %}', {{ pie_data.forwarded|unlocalize }}],
                    ['{% trans "Failed" %}', {{ pie_data.failed|unlocalize }}]
                ],
                colors: {
                    '{% trans "Fully aligned" %}': 'limegreen',
                    '{% trans "Partially aligned" %}': 'gold',
+                   '{% trans "Forwarded" %}': 'lightskyblue',
                    '{% trans "Failed" %}': 'lightcoral',
                },
                type : 'pie'
@@ -68,9 +70,9 @@
     <div class="col-sm-7">
       <div class="row">
         <div class="col-sm-6">
-          <div class="panel panel-info text-center">
+          <div class="panel panel-primary text-center">
             <div class="panel-body">
-              <h1 class="text-info">{{ stats.total }}</h1>
+              <h1 class="text-primary">{{ stats.total }}</h1>
               <h4>{% trans "processed" %}</h4>
             </div>
           </div>
@@ -88,8 +90,17 @@
         <div class="col-sm-6">
           <div class="panel panel-warning text-center">
             <div class="panel-body">
-              <h1 class="text-warning" >{{ stats.paligned }}</h1>
+              <h1 class="text-warning" >{{ stats.trusted }}</h1>
               <h4>{% trans "partially aligned" %}</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="panel panel-info text-center">
+            <div class="panel-body">
+              <h1 class="text-info" >{{ stats.forwarded }}</h1>
+              <h4>{% trans "forwarded" %}</h4>
             </div>
           </div>
         </div>
@@ -112,10 +123,26 @@
   </div>
 
   <div id="report-details" style="display: none">
-    <h1><small>{% trans "Trusted sources" %} <span class="text-success">{{ stats.trusted }}</span></small></h1>
+    <h1><small>{% trans "Trusted sources" %} <span class="text-success">{{ stats.aligned }}</span></small></h1>
+
+    <table class="table">
+      {% for domain, stats in aligned|domain_sorted_items %}
+        {% include "modoboa_dmarc/_result_detail.html" with domain=domain stats=stats %}
+      {% endfor %}
+    </table>
+
+    <h1><small>{% trans "Partially trusted sources / Forwarders" %} <span class="text-warning">{{ stats.trusted }}</span></small></h1>
 
     <table class="table">
       {% for domain, stats in trusted|domain_sorted_items %}
+        {% include "modoboa_dmarc/_result_detail.html" with domain=domain stats=stats %}
+      {% endfor %}
+    </table>
+
+    <h1><small>{% trans "Forwarders with ARC" %} <span class="text-info">{{ stats.forwarded }}</span></small></h1>
+
+    <table class="table">
+      {% for domain, stats in forwarded|domain_sorted_items %}
         {% include "modoboa_dmarc/_result_detail.html" with domain=domain stats=stats %}
       {% endfor %}
     </table>
