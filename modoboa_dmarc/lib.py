@@ -8,11 +8,11 @@ import imaplib
 import zipfile
 import gzip
 import sys
-import magic
 
 from defusedxml.ElementTree import fromstring
 import pytz.exceptions
 import six
+import magic
 
 from django.db import transaction
 from django.utils.encoding import smart_text
