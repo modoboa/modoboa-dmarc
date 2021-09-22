@@ -10,6 +10,19 @@ reports and generate visual reports (using c3.js) on a per-domain basis.
 
 Installation
 ------------
+Make sure to install the following additional system package according to your distribution:
+
++-----------------+
+| Debian / Ubuntu |
++=================+
+| libmagic1       |
++-----------------+
+
++------------+
+| CentOS     |
++============+
+| file-devel |
++------------+
 
 Install this extension system-wide or inside a virtual environment by
 running the following command::
@@ -71,6 +84,28 @@ Hash the file using the following command::
 Finally, reload postfix::
 
   $ service postfix reload
+
+
+Specific Upgrade Instructions
+-----------------------------
+
+1.3.0
+~~~~~
+
+modoboa-dmarc now requires an additional system package according to your distribution:
+
++-----------------+
+| Debian / Ubuntu |
++=================+
+| libmagic1       |
++-----------------+
+
++------------+
+| CentOS     |
++============+
+| file-devel |
++------------+
+
 
 .. |gha| image:: https://github.com/modoboa/modoboa-dmarc/actions/workflows/plugin.yml/badge.svg
    :target: https://github.com/modoboa/modoboa-dmarc/actions/workflows/plugin.yml
