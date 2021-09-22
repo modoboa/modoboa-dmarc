@@ -193,7 +193,7 @@ def import_from_imap(options):
     """Import reports from an IMAP mailbox."""
     obj = imaplib.IMAP4_SSL if options["ssl"] else imaplib.IMAP4
     conn = obj(options["host"])
-    username = raw_input("Username: ")
+    username = input("Username: ")
     password = getpass.getpass(prompt="Password: ")
     conn.login(username, password)
     conn.select(options["mailbox"])
