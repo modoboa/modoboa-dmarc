@@ -152,6 +152,8 @@ def import_report_from_email(content):
     """Import a report from an email."""
     if isinstance(content, six.string_types):
         msg = email.message_from_string(content)
+    elif isinstance(content, six.binary_type):
+        msg = email.message_from_bytes(content)
     else:
         msg = email.message_from_file(content)
     err = False
