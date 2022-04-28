@@ -114,14 +114,11 @@ def import_report(content):
 
     policy_published = root.find("policy_published")
     for attr in ["domain", "adkim", "aspf", "p", "sp", "pct"]:
-        value = getattr(
-            report, "policy_{}".format(attr),
-            policy_published.find(attr).text,
-            None
-        )
-        if not value:
+        node = policy_published.find(attr)
+        if node is None or not node.text:
             print(f"Report skipped because of malformed data (empty {attr})")
             return
+        value = setattr(report, "policy_{}".format(attr), node.text)
     try:
         report.save()
     except (pytz.exceptions.AmbiguousTimeError):

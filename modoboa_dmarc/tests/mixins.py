@@ -1,12 +1,10 @@
 """Test mixins."""
 
+import io
 import os
 import sys
 
-import six
-
 from django.core.management import call_command
-from django.utils.six import StringIO
 
 
 class CallCommandMixin(object):
@@ -23,9 +21,9 @@ class CallCommandMixin(object):
     def import_report(self, path):
         """Import test report from file."""
         with open(path) as fp:
-            buf = six.StringIO(fp.read())
+            buf = io.StringIO(fp.read())
         sys.stdin = buf
-        out = StringIO()
+        out = io.StringIO()
         call_command("import_aggregated_report", "--pipe", stdout=out)
         return out.getvalue()
 
