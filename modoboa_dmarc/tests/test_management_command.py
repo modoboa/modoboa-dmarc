@@ -23,3 +23,11 @@ class ManagementCommandTestCase(mixins.CallCommandMixin, ModoTestCase):
         self.assertTrue(
             models.Reporter.objects.filter(
                 org_name="FastMail Pty Ltd").exists())
+        # Ensure that reports from Yahoo are processed successfully.
+        # These do not contain a sp attribute in policy_published
+        self.assertTrue(
+            models.Report.objects.filter(
+                report_id="1435111091.916236",
+                reporter=models.Reporter.objects.get(org_name="Yahoo! Inc."),
+            ).exists()
+        )
