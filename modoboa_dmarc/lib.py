@@ -116,7 +116,7 @@ def import_report(content):
     for attr in ["domain", "adkim", "aspf", "p", "sp", "pct"]:
         node = policy_published.find(attr)
         if node is None or not node.text:
-            if attr in ["sp"]:
+            if attr == "sp":
                 node = fromstring('<sp>unstated</sp>', forbid_dtd=True)
             else:
                 print(f"Report skipped because of malformed data (empty {attr})")
